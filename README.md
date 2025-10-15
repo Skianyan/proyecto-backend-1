@@ -3,7 +3,7 @@ Link: [Link a este design doc](#)
 
 Author(s): Ricardo H.
 
-Status: [Draft, Ready for review, In Review, Reviewed] Draft
+Status: Draft
 
 Ultima actualización: 2025-10-14
 
@@ -28,22 +28,27 @@ Ultima actualización: 2025-10-14
 
 ## Objetivo
 _Que y porque estamos haciendo esto?_
-El estado de Baja California 
+El proyecto consiste de una página web en la cual se pueden visualizar datos del DENUE en un mapa interactivo está enfocado en la longevidad de los negocios.
 
 _Incluye contexto para las personas que no están familiarizadas con el proyecto._
+El Directorio Estadístico Nacional de Unidades Económicas. (DENUE) es un directorio de negocios que proporciona información de negocios registrados en un sector de méxico, 
+el directorio cuenta con información importante como lo es el giro del negocio, ubicación (dirección y coordenadas), información de contacto, etc.
 
 _Mantenlo corto, elabora en **Background, Overview y Detailed Design**_
-
-_Añade screenshots / mocks si lo ves necesario_
+Este proyecto busca utilizar la información que nos provee el DENUE para estudiar la durabilidad de negocios de diferentes giros, en áreas especificadas y en espacios de tiempo especificados.
 
 ## Goals
-- Crear una pagina web en la cual se tenga
-- Filtrar negocios por tipo de negocio
-- Filtrar negocios por rango de fechas en las que fueron inscritas
-- Mostrar en un mapa la cantidad de 
+- Leer datos del DENUE en un programa Python para analizar la duración de los negocios.
+- Plasmar estos datos en un heatmap, el cual muestre concentraciones de negocios de alta longitud.
+- Habilidad de filtrar negocios por tipo de negocio
+- Habilidad de filtrar negocios por rango de fechas en las que fueron inscritas al DENUE
+- Identificar negocios los cuales han estado inscritos por más de 1 año sin darse de baja
   
 ## Non-Goals
-- 
+- Consultar bases de datos relacionadas con negocios aparte de las oficiales del INEGI.
+- Crear una aplicación web adaptable a moviles.
+- Crear un sistema con logins.
+- Un CRUD hacia la base de datos (solo leer datos).
   
 
 ## Background
@@ -58,7 +63,9 @@ _Overview a alto nivel de tu propuesta_
 
 _Esta sección debería ser entendible por nuevos miembros de tu equipo que no están relacionados al proyecto_
 
+
 _Pon detalles en la siguiente sección_
+
 
 ## Detailed Design
 _Usa diagramas donde veas necesario_
