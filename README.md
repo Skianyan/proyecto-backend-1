@@ -27,15 +27,9 @@ Ultima actualización: 2025-10-14
 - [Otro link](#)
 
 ## Objetivo
-_Que y porque estamos haciendo esto?_
 El proyecto consiste de una página web en la cual se pueden visualizar datos del DENUE en un mapa interactivo está enfocado en la longevidad de los negocios.
 
-_Incluye contexto para las personas que no están familiarizadas con el proyecto._
-El Directorio Estadístico Nacional de Unidades Económicas. (DENUE) es un directorio de negocios que proporciona información de negocios registrados en un sector de méxico, 
-el directorio cuenta con información importante como lo es el giro del negocio, ubicación (dirección y coordenadas), información de contacto, etc.
-
-_Mantenlo corto, elabora en **Background, Overview y Detailed Design**_
-Este proyecto busca utilizar la información que nos provee el DENUE para estudiar la durabilidad de negocios de diferentes giros, en áreas especificadas y en espacios de tiempo especificados.
+Este proyecto busca utilizar la información que nos provee el INEGI para estudiar la durabilidad de negocios de diferentes giros, en áreas especificadas y en espacios de tiempo especificados.
 
 ## Goals
 - Leer datos del DENUE en un programa Python para analizar la duración de los negocios.
@@ -52,20 +46,19 @@ Este proyecto busca utilizar la información que nos provee el DENUE para estudi
   
 
 ## Background
-_Cuál es el contexto de este proyecto?_
+El Directorio Estadístico Nacional de Unidades Económicas. (DENUE) es un directorio de negocios que proporciona información de negocios registrados en un sector de méxico, 
+el directorio cuenta con información importante como lo es el giro del negocio, ubicación (dirección y coordenadas), información de contacto, etc.
 
-_Incluye recursos, como otros design docs si es necesario_
-
-_No escribas acerca de tu diseño o requerimientos aquí_
+El INEGI hace un estudio al que le denomina demografia de los negocios, en la cual calcula
+estadisticas sobre la mortalidad de los negocios y los publica en su pagina.
+https://www.inegi.org.mx/temas/dn/
 
 ## Overview
-_Overview a alto nivel de tu propuesta_
-
-_Esta sección debería ser entendible por nuevos miembros de tu equipo que no están relacionados al proyecto_
-
-
-_Pon detalles en la siguiente sección_
-
+El proyecto consiste de una pagina web programada en Python utilizando la tecnologia Flask, la cual lee de una
+base de datos de excel, mysql o postgres dependiendo del branch del proyecto.
+Su entorno grafico consiste de diferentes filtros los cuales afectan lo que se desplegara en un mapa central,
+los datos a filtrar incluyen cosas como año de inscripcion, tipo de negocio, o solo desplegar negocios que
+tengan cierto rango de longevidad.
 
 ## Detailed Design
 _Usa diagramas donde veas necesario_
