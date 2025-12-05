@@ -1,5 +1,5 @@
 # TITULO DEL DESIGN DOC
-Link: [Link a este design doc](#)
+Link: [Link a este design doc](https://github.com/Skianyan/proyecto-backend-1/blob/main/README.md)
 
 Author(s): Ricardo H.
 
@@ -19,12 +19,9 @@ Ultima actualización: 2025-10-14
   - Solucion 2
     - Frontend
     - Backend
-- Consideraciones
-- Métricas
 
 ## Links
-- [Un link](#)
-- [Otro link](#)
+- [Proyecto en GitHub](https://github.com/Skianyan/proyecto-backend-1)
 
 ## Objetivo
 El proyecto consiste de una página web en la cual se pueden visualizar datos del DENUE en un mapa interactivo está enfocado en la longevidad de los negocios.
@@ -33,10 +30,9 @@ Este proyecto busca utilizar la información que nos provee el INEGI para estudi
 
 ## Goals
 - Leer datos del DENUE en un programa Python para analizar la duración de los negocios.
-- Plasmar estos datos en un heatmap, el cual muestre concentraciones de negocios de alta longitud.
+- Plasmar estos datos en un mapa, el cual muestre concentraciones de negocios de alta longitud.
 - Habilidad de filtrar negocios por tipo de negocio
 - Habilidad de filtrar negocios por rango de fechas en las que fueron inscritas al DENUE
-- Identificar negocios los cuales han estado inscritos por más de 1 año sin darse de baja
   
 ## Non-Goals
 - Consultar bases de datos relacionadas con negocios aparte de las oficiales del INEGI.
@@ -55,39 +51,21 @@ https://www.inegi.org.mx/temas/dn/
 
 ## Overview
 El proyecto consiste de una pagina web programada en Python utilizando la tecnologia Flask, la cual lee de una
-base de datos de excel, mysql o postgres dependiendo del branch del proyecto.
-Su entorno grafico consiste de diferentes filtros los cuales afectan lo que se desplegara en un mapa central,
-los datos a filtrar incluyen cosas como año de inscripcion, tipo de negocio, o solo desplegar negocios que
-tengan cierto rango de longevidad.
+base de datos de excel, mysql o postgres dependiendo de la api que se consulta (diferente /api/csv, por ejemplo).
+Su entorno grafico consiste de un mapa en el cual se despliegan diferentes pines, estos son cargados solamente cuando
+se encuentra a un nivel especifico de zoom, para prevenir sobrecarga de datos.
+Los pines se pueden filtrar a partir de datos cosas como año de inscripcion, tipo de negocio.
 
-## Detailed Design
-_Usa diagramas donde veas necesario_
-
-_Herramientas como [Excalidraw](https://excalidraw.com) son buenos recursos para esto_
-
-_Cubre los cambios principales:_
-
- _- Cuales son las nuevas funciones que vas a escribir?_
- _- Porque necesitas nuevos componentes?_
- _- Hay código que puede ser reusable?_
-
-_No elabores minuciosamente la implementación._
 
 ## Solution 1
 ### Frontend
-_Frontend…_
+Utilizamos OpenStreetMaps y Leaflet para desplegar mapas y insertar los pines.
+OpenStreetMaps, como su nombre implica es un mapa de uso libre bajo una licencia abierta, perfecta para un proyecto pequeño como el nuestro.
+Leaflet.js es una librería de javascript que nos permite manipular mediante css lo que desplegamos en un mapa, en nuestro caso mediante pines
+los cuales muestren información sobre el negocio al presionarlos.
+
 ### Backend
-_Backend…_
+Se utilizan archivos .csv separados por tablas, utilizamos la funcionalidad de "merge" que tiene la libreria de pandas para
+unirlos en una
 
-## Solution 2
-### Frontend
-_Frontend…_
-### Backend
-_Backend…_
-
-## Consideraciones
-_Preocupaciones / trade-offs / tech debt_
-
-## Métricas
-_Que información necesitas para validar antes de lanzar este feature?_
 

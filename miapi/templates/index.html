@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Negocios DENUE</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <style>
+        /* Estilo para que el mapa ocupe toda la ventana visible */
+        #map { 
+            height: 100vh; 
+            width: 100%; 
+        }
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="filtros" style="position:absolute;z-index:1000;top:10px;left:50px;background:white;padding:8px;border-radius:4px;box-shadow:0 0 4px rgba(0,0,0,0.3);">
+        <label for="filtroYear">Año:</label>
+        <select id="filtroYear">
+            <option value="">Todos</option>
+        </select>
+    </div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+        // Coordenadas iniciales
+        const LATITUD_CENTRO = 31.866; 
+        const LONGITUD_CENTRO = -116.602;
+        const ZOOM_INICIAL = 10;
+        
+        // Nivel de zoom mínimo para iniciar la carga de pines (Opcional, para evitar cargar en vistas muy amplias)
+        const ZOOM_MINIMO_CARGA = 16;
+
+        // Inicializar el mapa
+        const map = L.map('map').setView([LATITUD_CENTRO, LONGITUD_CENTRO], ZOOM_INICIAL);
+        
+        
+        // Flitro basico
+        const filtroYearSelect = document.getElementById('filtroYear');
+        
+        // Cargar años disponibles desde el backend
+        async function cargarYearsDisponibles() {
+            try {
+                const resp = await fetch('/api/years_disponibles');
+                const year = await resp.json();
+
+                year.forEach(year => {
+                    const opt = document.createElement('option');
+                    opt.value = year;
+                    opt.textContent = year;
+                    filtroYearSelect.appendChild(opt);
+                });
+            } catch (e) {
+                console.error('Error al cargar años disponibles:', e);
+            }
+        }
+
+        cargarYearsDisponibles();
+
+
+        // Añadir capa de mapas
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> | Datos DENUE INEGI',
+            maxZoom: 19,
+        }).addTo(map);
+
+        // Crear un LayerGroup para manejar solo los pines visibles actualmente
+        const visibleMarkers = new L.LayerGroup().addTo(map);
+
+        // Función para cargar los negocios dentro de la vista actual del mapa
+        async function cargarNegociosEnVista() {
+            const zoomActual = map.getZoom();
+            if (zoomActual < ZOOM_MINIMO_CARGA) {
+                visibleMarkers.clearLayers();
+                return;
+            }
+
+            const bounds = map.getBounds();
+            const lat_min = bounds.getSouth();
+            const lat_max = bounds.getNorth();
+            const lon_min = bounds.getWest();
+            const lon_max = bounds.getEast();
+
+            const params = new URLSearchParams({
+                lat_min: lat_min,
+                lat_max: lat_max,
+                lon_min: lon_min,
+                lon_max: lon_max
+            });
+
+            const yearSeleccionado = filtroYearSelect.value;
+            if (yearSeleccionado) {
+                params.append('year', yearSeleccionado);
+            }
+
+            const url = `/api/datos_negocios?${params.toString()}`;
+
+            try {
+                const resp = await fetch(url);
+                const negocios = await resp.json();
+
+                visibleMarkers.clearLayers();
+
+                negocios.forEach(negocio => {
+                    const lat = negocio.latitud;
+                    const lon = negocio.longitud;
+                    if (!lat || !lon) return;
+
+                    // aquí usas nom_estab, raz_social, localidad, etc. como ya lo tienes configurado
+                    const marker = L.marker([lat, lon]);
+
+                    let html = `<b>${negocio.nom_estab || 'Sin nombre'}</b>`;
+                    if (negocio.raz_social) {
+                        html += `<br><small>${negocio.raz_social}</small>`;
+                    }
+                    if (negocio.year_registro) {
+                        html += `<br><span>Año de registro: ${negocio.year_registro}</span>`;
+                    }
+                    // resto del popup (localidad, actividad, contacto, etc.)
+
+                    marker.bindPopup(html);
+                    visibleMarkers.addLayer(marker);
+                });
+
+            } catch (error) {
+                console.error('Error al cargar los datos de negocios:', error);
+            }
+        }
+        
+        // Ejecutar la función para la carga inicial
+        filtroYearSelect.addEventListener('change', () => {
+            cargarNegociosEnVista();
+        });
+        
+        // 5. Escuchar el evento 'moveend' (cuando el usuario termina de moverse o hacer zoom)
+        map.on('moveend', cargarNegociosEnVista);
+    </script>
+</body>
+</html>
